@@ -115,7 +115,7 @@ counties <- get_estimates("county",
                           product="population",
                           output="wide",
                           geometry=TRUE, keep_geo_vars=TRUE,
-                          key="yourkey")
+                          key="")
 
 # select only the states you want, with FIPS state codes
 # look up fips codes here:
@@ -201,6 +201,8 @@ county_tweets = dbReadTable(con, "tablename")
 
 # save county-level results to derived/public
 saveRDS(county_tweets, here("data","derived","public","county_tweets.RDS"))
+saveRDS(birding, here("data","derived","public","birding.RDS"))
+saveRDS(mayTweets, here("data","derived","public","mayTweets.RDS"))
 
 #disconnect from the database
 dbDisconnect(con)

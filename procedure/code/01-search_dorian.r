@@ -31,10 +31,10 @@ library(tidyverse)
 #replace app, consumer_key, and consumer_secret data with your own developer acct info
 twitter_token <- create_token(
   app = "Natural Disaster GIScience",  					#replace yourapp with your app name
-  consumer_key = "DMEjKqX9gu1DUH4lpqWBGaLwl",  		#replace yourkey with your consumer key
-  consumer_secret = "bgVFcdCE3k6mGMBW9LqKagteHl43AixkxN5sbqO0vhZjQB1CTK",  #replace yoursecret with your consumer secret
-  access_token = "1072169251551830022-df45u9L3oaBnowO6aDmDx9gxNfMXy7",
-  access_secret = "ztVhFHKMOpaIzhhv3Elz9U7fbW04pwSvap21ZQJFW1bVQ"
+  consumer_key = "",  		#replace yourkey with your consumer key
+  consumer_secret = "",  #replace yoursecret with your consumer secret
+  access_token = "",
+  access_secret = ""
 )
 
 #get tweets for hurricane Dorian, searched on September 11, 2019
@@ -45,11 +45,11 @@ dorian <- search_tweets("dorian OR hurricane OR sharpiegate", n=200000, include_
 #the query searches for all verified or unverified tweets, so essentially everything
 november <- search_tweets("-filter:verified OR filter:verified", n=200000, include_rts=FALSE, token=twitter_token, geocode="32,-78,1000mi", retryonratelimit=TRUE)
 
-#get tweets for bird migration, searched on May 4, 2021
+#get tweets for bird migration, searched on May 5, 2021
 birdMigration <- search_tweets("spring AND bird", n=200000, include_rts=FALSE, token=twitter_token, geocode="37,-79,1000mi", retryonratelimit=TRUE)
 bird <- search_tweets("bird", n=200000, include_rts=FALSE, token=twitter_token, geocode="37,-79,1000mi", retryonratelimit=TRUE)
 birdsarentreal <- search_tweets("birdsarentreal", n=200000, include_rts=FALSE, token=twitter_token, geocode="37,-79,1000mi", retryonratelimit=TRUE)
-birding <- search_tweets("birdday OR birding OR (bird AND spring)", n=200000, include_rts=FALSE, token=twitter_token, geocode="37,-79,1000mi", retryonratelimit=TRUE)
+birding <- search_tweets("birdday OR birding OR birds OR (bird AND spring) OR (bird AND migration)", n=200000, include_rts=FALSE, token=twitter_token, geocode="37,-79,1000mi", retryonratelimit=TRUE)
 
 #get tweets without any text filter for the same geographic region in May, searched on May 4, 2021
 #the query searches for all verified or unverified tweets, so essentially everything
@@ -82,6 +82,8 @@ unique(birding$place_type)
 count(dorian, place_type)
 
 count(birding, place_type)
+
+count(bird, place_type)
 
 #convert GPS coordinates into lat and lng columns
 #do not use geo_coords! Lat/Lng will come out inverted

@@ -184,8 +184,8 @@ dbWriteTable(con,'counties',lownames(counties), overwrite=TRUE)
 # Count the number of november points in each county
 # Set counties with no points to 0 for the november count
 # Calculate the normalized difference tweet index (made this up, based on NDVI),
-# where ndti = (tweets about storm – baseline twitter activity) /
-#              (tweets about storm + baseline twitter activity)
+# where ndti = (tweets about birds – baseline twitter activity) /
+#              (tweets about birds + baseline twitter activity)
 # remember to multiply something by 1.0 so that you'll get decimal division
 # also if the denominator would end up being 0, set the result to 0
 

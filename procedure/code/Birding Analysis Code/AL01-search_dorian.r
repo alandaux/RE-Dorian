@@ -37,14 +37,12 @@ twitter_token <- create_token(
   access_secret = ""
 )
 
-#get tweets for hurricane Dorian, searched on September 11, 2019
-dorian <- search_tweets("dorian OR hurricane OR sharpiegate", n=200000, include_rts=FALSE, token=twitter_token, geocode="32,-78,1000mi", retryonratelimit=TRUE)
 
-
-#get tweets without any text filter for the same geographic region in November, searched on November 19, 2019
+#get tweets for bird migration, searched on May 5, 2021
+birding <- search_tweets("birdday OR birding OR birds OR (bird AND spring) OR (bird AND migration)", n=200000, include_rts=FALSE, token=twitter_token, geocode="37,-79,1000mi", retryonratelimit=TRUE)
+#get tweets without any text filter for the same geographic region in May, searched on May 4, 2021
 #the query searches for all verified or unverified tweets, so essentially everything
-november <- search_tweets("-filter:verified OR filter:verified", n=200000, include_rts=FALSE, token=twitter_token, geocode="32,-78,1000mi", retryonratelimit=TRUE)
-
+mayTweets <- search_tweets("-filter:verified OR filter:verified", n=200000, include_rts=FALSE, token=twitter_token, geocode="37,-79,1000mi", retryonratelimit=TRUE)
 
 
 ############# LOAD THESE RESULTS - GEOG323 STUDENTS ONLY ############# 
@@ -64,29 +62,28 @@ load(here("data","derived","private","dorian.RData"))
 #sample function: lat_lng(x, coords = c("coords_coords", "bbox_coords"))
 
 # list unique/distinct place types to check if you got them all
-unique(dorian$place_type)
 
-
+unique(birding$place_type)
 
 # list and count unique place types
 # NA results included based on profile locations, not geotagging / geocoding. If you have these, it indicates that you exhausted the more precise tweets in your search parameters
-count(dorian, place_type)
+
+count(birding, place_type)
+
 
 #convert GPS coordinates into lat and lng columns
 #do not use geo_coords! Lat/Lng will come out inverted
-dorian <- lat_lng(dorian,coords=c("coords_coords"))
-november <- lat_lng(november,coords=c("coords_coords"))
 
-
+mayTweets <- lat_lng(mayTweets,coords=c("coords_coords"))
+birding <- lat_lng(birding,coords=c("coords_coords"))
 
 #select any tweets with lat and lng columns (from GPS) or designated place types of your choosing
-dorian <- subset(dorian, place_type == 'city'| place_type == 'neighborhood'| place_type == 'poi' | !is.na(lat))
-november <- subset(november, place_type == 'city'| place_type == 'neighborhood'| place_type == 'poi' | !is.na(lat))
 
+mayTweets <- subset(mayTweets, place_type == 'city'| place_type == 'neighborhood'| place_type == 'poi' | !is.na(lat))
+birding <- subset(birding, place_type == 'city'| place_type == 'neighborhood'| place_type == 'poi' | !is.na(lat))
 
 #convert bounding boxes into centroids for lat and lng columns
-dorian <- lat_lng(dorian,coords=c("bbox_coords"))
-november <- lat_lng(november,coords=c("bbox_coords"))
 
-
+birding <- lat_lng(birding,coords=c("bbox_coords"))
+mayTweets <- lat_lng(mayTweets,coords=c("bbox_coords"))
 
